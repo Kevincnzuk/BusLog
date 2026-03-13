@@ -9,6 +9,7 @@ A small app that lets you keep a record of the transportation you've travelled.
 - `SQLite` based, no internet access required.
 - Auto-category based on dates.
 - Auto-complete available when adding a record.
+- **NEW** Statistics chart - shows how many time have you ride this vehicle/model/line.
 
 ### Languages
 
