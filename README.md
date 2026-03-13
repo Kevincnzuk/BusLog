@@ -5,6 +5,7 @@ A small app that lets you keep a record of the transportation you've travelled.
 ## Functions
 
 - Material 3 UI.
+- Dark theme supported.
 - `SQLite` based, no internet access required.
 - Auto-category based on dates.
 - Auto-complete available when adding a record.
@@ -19,7 +20,7 @@ Currently support:
 
 ## Screenshots
 
-TBA
+![App Screenshots](IMG_20260313_212424.jpg)
 
 ## Downloads
 
