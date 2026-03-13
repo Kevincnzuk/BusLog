@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_efab_add">添加</string>
+    <string name="main_to">开往</string>
+    <string name="main_delete">删除</string>
+    <string name="main_delete_info">已删除 %1$s 。</string>
+    <string name="main_delete_undo">撤销</string>
+
+    <string name="add_input_bus_number">车号</string>
+    <string name="add_input_bus_model">型号</string>
+    <string name="add_input_bus_route_number">线路</string>
+    <string name="add_input_bus_route_destination">终点站</string>
+    <string name="add_input_create_date">上车日期</string>
+    <string name="add_input_create_time">上车时间</string>
+    <string name="add_input_note">备注</string>
+    <string name="add_button_submit">提交</string>
+    <string name="add_edit">编辑</string>
+    <string name="add_error">错误</string>
+    <string name="add_error_entry_not_exist">该记录不存在。</string>
+
+    <string name="input_required">必填</string>
+    <string name="input_optional">选填</string>
+</resources>
