@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.github.kevincnzuk.buslog;
+package com.github.kevincnzuk.buslog.vo;
 
 public class ListItem {
     public static final int TYPE_HEADER = 0;

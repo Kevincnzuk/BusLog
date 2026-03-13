@@ -18,15 +18,16 @@
 
 package com.github.kevincnzuk.buslog;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.graphics.Insets;
@@ -35,10 +36,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.kevincnzuk.buslog.adapter.MainAdapter;
+import com.github.kevincnzuk.buslog.helper.MyDatabaseHelper;
+import com.github.kevincnzuk.buslog.helper.OnItemInteractionListener;
+import com.github.kevincnzuk.buslog.vo.EntryVO;
+import com.github.kevincnzuk.buslog.vo.ListItem;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.color.DynamicColors;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
@@ -172,6 +176,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cursor.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.main_menu_statistics) {
+            Intent intent = new Intent(this, StatisticsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.main_menu_search) {
+            // TODO
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

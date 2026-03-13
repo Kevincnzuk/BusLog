@@ -5,6 +5,8 @@
     <string name="main_delete">删除</string>
     <string name="main_delete_info">已删除 %1$s 。</string>
     <string name="main_delete_undo">撤销</string>
+    <string name="main_menu_statistics">统计</string>
+    <string name="main_menu_search">搜索</string>
 
     <string name="add_input_bus_number">车号</string>
     <string name="add_input_bus_model">型号</string>

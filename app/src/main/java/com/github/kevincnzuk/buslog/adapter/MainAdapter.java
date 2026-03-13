@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.github.kevincnzuk.buslog;
+package com.github.kevincnzuk.buslog.adapter;
 
 import static android.view.View.GONE;
 
@@ -31,6 +31,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.kevincnzuk.buslog.AddActivity;
+import com.github.kevincnzuk.buslog.vo.EntryVO;
+import com.github.kevincnzuk.buslog.vo.ListItem;
+import com.github.kevincnzuk.buslog.helper.OnItemInteractionListener;
+import com.github.kevincnzuk.buslog.R;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.DateFormat;

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.github.kevincnzuk.buslog;
+package com.github.kevincnzuk.buslog.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -44,7 +44,5 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 }

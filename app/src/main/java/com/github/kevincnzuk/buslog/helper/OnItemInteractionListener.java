@@ -16,7 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.github.kevincnzuk.buslog;
+package com.github.kevincnzuk.buslog.helper;
+
+import com.github.kevincnzuk.buslog.vo.EntryVO;
 
 public interface OnItemInteractionListener {
     void onDelete(EntryVO vo, int position);
