@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (id == R.id.main_menu_search) {
-            // TODO
+            Snackbar.make(layout, R.string.main_coming_soon, Snackbar.LENGTH_LONG).show();
             return true;
         }
 

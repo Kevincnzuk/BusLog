@@ -18,6 +18,7 @@
 
 package com.github.kevincnzuk.buslog.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +33,10 @@ import com.github.kevincnzuk.buslog.stats.StatsList;
 import com.github.kevincnzuk.buslog.vo.StatsVO;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.ViewHolder> {
+public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> {
 
     private static final String TAG = "StatisticsAdapter";
 
@@ -57,13 +58,23 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Vi
         }
     }
 
-    public StatisticsAdapter(Context context, StatsList statsList) {
+    public StatsAdapter(Context context, StatsList statsList) {
         this.context = context;
+        this.list = new ArrayList<>();
         setNewStatsList(statsList);
     }
 
     public void setNewStatsList(StatsList statsList) {
-        this.list = statsList.getStats(context);
+        new Thread(() -> {
+            List<StatsVO> voList = statsList.getStats(context);
+
+            if (context instanceof Activity) {
+                ((Activity) context).runOnUiThread(() -> {
+                    this.list = voList;
+                    notifyItemRangeChanged(0, voList.size());
+                });
+            }
+        }).start();
     }
 
     @NonNull

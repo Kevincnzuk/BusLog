@@ -25,15 +25,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.github.kevincnzuk.buslog.adapter.StatisticsAdapter;
-import com.github.kevincnzuk.buslog.stats.BusModelStatsList;
-import com.github.kevincnzuk.buslog.stats.BusNumberStatsList;
-import com.github.kevincnzuk.buslog.stats.BusRouteStatsList;
+import com.github.kevincnzuk.buslog.adapter.StatsAdapter;
+import com.github.kevincnzuk.buslog.stats.StatsPagerAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -41,8 +39,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
     private TabLayout tabLayout;
-    private RecyclerView recyclerView;
-    private StatisticsAdapter adapter;
+//    private RecyclerView recyclerView;
+    private ViewPager2 viewPager2;
+    private StatsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,39 +63,52 @@ public class StatisticsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tabLayout = findViewById(R.id.stats_tab_layout);
-        recyclerView = findViewById(R.id.stats_recycler_view);
+        viewPager2 = findViewById(R.id.stats_view_pager2);
+//        recyclerView = findViewById(R.id.stats_recycler_view);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        adapter = new StatisticsAdapter(this, new BusNumberStatsList());
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+//        LinearLayoutManager manager = new LinearLayoutManager(this);
+//        adapter = new StatisticsAdapter(this, new BusNumberStatsList());
+//        recyclerView.setLayoutManager(manager);
+//        recyclerView.setAdapter(adapter);
     }
 
     private void initComponentActions() {
         toolbar.setNavigationOnClickListener(v ->
                 getOnBackPressedDispatcher().onBackPressed());
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                if (position == 0) {
-                    adapter.setNewStatsList(new BusNumberStatsList());
-                } else if (position == 1) {
-                    adapter.setNewStatsList(new BusModelStatsList());
-                } else if (position == 2) {
-                    adapter.setNewStatsList(new BusRouteStatsList());
-                }
-                adapter.notifyDataSetChanged();
-            }
+        viewPager2.setAdapter(new StatsPagerAdapter(this));
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                recyclerView.smoothScrollToPosition(0);
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, i) -> {
+            if (i == 0) {
+                tab.setText(R.string.add_input_bus_number);
+            } else if (i == 1) {
+                tab.setText(R.string.add_input_bus_model);
+            } else if (i == 2) {
+                tab.setText(R.string.add_input_bus_route_number);
             }
-        });
+        }).attach();
+
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                int position = tab.getPosition();
+//                if (position == 0) {
+//                    adapter.setNewStatsList(new BusNumberStatsList());
+//                } else if (position == 1) {
+//                    adapter.setNewStatsList(new BusModelStatsList());
+//                } else if (position == 2) {
+//                    adapter.setNewStatsList(new BusRouteStatsList());
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {}
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                recyclerView.smoothScrollToPosition(0);
+//            }
+//        });
     }
 }
