@@ -39,7 +39,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
     private TabLayout tabLayout;
-//    private RecyclerView recyclerView;
     private ViewPager2 viewPager2;
     private StatsAdapter adapter;
 
@@ -64,12 +63,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.stats_tab_layout);
         viewPager2 = findViewById(R.id.stats_view_pager2);
-//        recyclerView = findViewById(R.id.stats_recycler_view);
-
-//        LinearLayoutManager manager = new LinearLayoutManager(this);
-//        adapter = new StatisticsAdapter(this, new BusNumberStatsList());
-//        recyclerView.setLayoutManager(manager);
-//        recyclerView.setAdapter(adapter);
     }
 
     private void initComponentActions() {
@@ -87,28 +80,5 @@ public class StatisticsActivity extends AppCompatActivity {
                 tab.setText(R.string.add_input_bus_route_number);
             }
         }).attach();
-
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                int position = tab.getPosition();
-//                if (position == 0) {
-//                    adapter.setNewStatsList(new BusNumberStatsList());
-//                } else if (position == 1) {
-//                    adapter.setNewStatsList(new BusModelStatsList());
-//                } else if (position == 2) {
-//                    adapter.setNewStatsList(new BusRouteStatsList());
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {}
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//                recyclerView.smoothScrollToPosition(0);
-//            }
-//        });
     }
 }

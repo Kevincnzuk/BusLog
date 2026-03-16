@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.kevincnzuk.buslog.R;
-import com.github.kevincnzuk.buslog.stats.StatsList;
+import com.github.kevincnzuk.buslog.stats.IStatsList;
 import com.github.kevincnzuk.buslog.vo.StatsVO;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
@@ -58,15 +58,15 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
         }
     }
 
-    public StatsAdapter(Context context, StatsList statsList) {
+    public StatsAdapter(Context context, IStatsList IStatsList) {
         this.context = context;
         this.list = new ArrayList<>();
-        setNewStatsList(statsList);
+        setNewStatsList(IStatsList);
     }
 
-    public void setNewStatsList(StatsList statsList) {
+    public void setNewStatsList(IStatsList IStatsList) {
         new Thread(() -> {
-            List<StatsVO> voList = statsList.getStats(context);
+            List<StatsVO> voList = IStatsList.getStats();
 
             if (context instanceof Activity) {
                 ((Activity) context).runOnUiThread(() -> {

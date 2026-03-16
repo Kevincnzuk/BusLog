@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -46,6 +47,12 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -53,6 +60,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter
+            .ofLocalizedDate(FormatStyle.MEDIUM);
 
     private SQLiteDatabase db;
     private List<ListItem> displayList;
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (cursor.moveToFirst()) {
             displayList.clear();
-            Calendar lastDate = null;
+            Instant lastInstance = null;
 
             do {
                 EntryVO vo = new EntryVO();
@@ -160,15 +169,14 @@ public class MainActivity extends AppCompatActivity {
                 vo.setCreateTime(createTime);
                 vo.setNote(cursor.getString(cursor.getColumnIndexOrThrow("note")));
 
-                Calendar thisDate = Calendar.getInstance();
-                thisDate.setTimeInMillis(createTime);
+                Instant thisInstance = Instant.ofEpochMilli(createTime);
 
-                String thisDateFormatted = DateFormat.getDateInstance(DateFormat.MEDIUM).format(thisDate.getTime());
+                ZonedDateTime zdt = thisInstance.atZone(ZoneId.systemDefault());
 
-                if (lastDate == null || !thisDateFormatted
-                        .equals(DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastDate.getTime()))) {
-                    displayList.add(new ListItem(ListItem.TYPE_HEADER, thisDateFormatted));
-                    lastDate = thisDate;
+                if (lastInstance == null || !isSameDay(thisInstance, lastInstance)) {
+                    Log.d(TAG, "initDatabase: createTime = " + createTime);
+                    displayList.add(new ListItem(ListItem.TYPE_HEADER, zdt.format(FORMATTER)));
+                    lastInstance = thisInstance;
                 }
 
                 displayList.add(new ListItem(ListItem.TYPE_LOG, vo));
@@ -176,6 +184,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cursor.close();
+    }
+
+    private boolean isSameDay(Instant i1, Instant i2) {
+        LocalDate date1 = i1.atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate date2 = i2.atZone(ZoneId.systemDefault()).toLocalDate();
+        return date1.equals(date2);
     }
 
     @Override

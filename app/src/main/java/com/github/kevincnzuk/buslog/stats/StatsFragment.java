@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 
 import com.github.kevincnzuk.buslog.R;
 import com.github.kevincnzuk.buslog.adapter.StatsAdapter;
-import com.github.kevincnzuk.buslog.vo.StatsVO;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,19 +53,20 @@ public class StatsFragment extends Fragment {
                 container, false);
         RecyclerView recyclerView = view.findViewById(R.id.fragment_stats_recycler_view);
 
-        StatsList statsList;
+        String columnName;
         switch (position) {
             case 2:
-                statsList = new BusRouteStatsList();
+                columnName = "bus_route_number";
                 break;
             case 1:
-                statsList = new BusModelStatsList();
+                columnName = "bus_model";
                 break;
             case 0:
             default:
-                statsList = new BusNumberStatsList();
+                columnName = "bus_number";
                 break;
         }
+        IStatsList statsList = new StatsList(getContext(), columnName);
 
         StatsAdapter adapter = new StatsAdapter(getContext(), statsList);
 

@@ -64,8 +64,7 @@ public class AddActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
 
     private EntryVO vo;
-    private Calendar localCal;
-    private Calendar utcCal;
+    private Calendar cal;
     private SQLiteOpenHelper helper;
     private SQLiteDatabase db;
     private boolean editMode = false;
@@ -102,8 +101,7 @@ public class AddActivity extends AppCompatActivity {
         helper = new MyDatabaseHelper(this, "log.db", null, 1);
         db = helper.getWritableDatabase();
 
-        localCal = Calendar.getInstance();
-        utcCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal = Calendar.getInstance();
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("id")) {
@@ -136,7 +134,7 @@ public class AddActivity extends AppCompatActivity {
                     vo.setCreateTime(createTime);
                     vo.setNote(cursor.getString(cursor.getColumnIndexOrThrow("note")));
 
-                    localCal.setTimeInMillis(createTime);
+                    cal.setTimeInMillis(createTime);
 
                     editMode = true;
                 } else {
@@ -224,9 +222,9 @@ public class AddActivity extends AppCompatActivity {
     private void initComponentContents() {
         if (vo == null) {
             tiEditTextDate.setText(DateFormat.getDateInstance()
-                    .format(utcCal.getTime()));
+                    .format(cal.getTime()));
             tiEditTextTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT)
-                    .format(localCal.getTime()));
+                    .format(cal.getTime()));
             return;
         }
 
@@ -276,8 +274,8 @@ public class AddActivity extends AppCompatActivity {
         MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
                 .setTimeFormat(clockFormat)
                 .setInputMode(INPUT_MODE_CLOCK)
-                .setHour(localCal.get(Calendar.HOUR_OF_DAY))
-                .setMinute(localCal.get(Calendar.MINUTE))
+                .setHour(cal.get(Calendar.HOUR_OF_DAY))
+                .setMinute(cal.get(Calendar.MINUTE))
                 .setTitleText(R.string.add_input_create_time)
                 .build();
 
@@ -288,23 +286,25 @@ public class AddActivity extends AppCompatActivity {
                 timePicker.show(getSupportFragmentManager(), "TIME_PICKER"));
 
         datePicker.addOnPositiveButtonClickListener(selection -> {
-            utcCal.setTimeInMillis(selection);
+            Calendar temp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            temp.setTimeInMillis(selection);
+
+            cal.set(Calendar.YEAR, temp.get(Calendar.YEAR));
+            cal.set(Calendar.MONTH, temp.get(Calendar.MONTH));
+            cal.set(Calendar.DAY_OF_MONTH, temp.get(Calendar.DAY_OF_MONTH));
 
             tiEditTextDate.setText(DateFormat.getDateInstance()
-                    .format(utcCal.getTime()));
+                    .format(cal.getTime()));
         });
 
         timePicker.addOnPositiveButtonClickListener(v -> {
-            localCal.set(utcCal.get(Calendar.YEAR),
-                    utcCal.get(Calendar.MONTH),
-                    utcCal.get(Calendar.DAY_OF_MONTH),
-                    timePicker.getHour(),
-                    timePicker.getMinute(),
-                    0
-            );
+            cal.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+            cal.set(Calendar.MINUTE, timePicker.getMinute());
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
 
             tiEditTextTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT)
-                    .format(localCal.getTime()));
+                    .format(cal.getTime()));
         });
     }
 
@@ -326,8 +326,7 @@ public class AddActivity extends AppCompatActivity {
         values.put("bus_model", getText(tiEditTextBusModel));
         values.put("bus_route_number", getText(tiEditTextBusRouteNumber));
         values.put("bus_route_destination", getText(tiEditTextBusRouteDestination));
-        values.put("create_time", localCal.getTimeInMillis());
-        Log.d(TAG, "submit: create_time = " + localCal.getTimeInMillis());
+        values.put("create_time", cal.getTimeInMillis());
         values.put("note", getText(tiEditTextNote));
 
         if (editMode) {
